@@ -1,133 +1,461 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Biodata</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Marriage Biodata Form</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap"
+      rel="stylesheet"
+    />
     <style>
+        /* Apnar original style ekhane thakbe - kono poriborton nai */
         body {
-            font-family: Arial;
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #f3e7e9 0%, #e3eeff 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            background-attachment: fixed;
+            position: relative;
+            overflow-x: hidden;
+        }
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml,%3Csvg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="none" fill-rule="evenodd"%3E%3Cg fill="%23ffffff" fill-opacity="0.1"%3E%3Cpath d="M36 34c0-2.21 1.79-4 4-4s4 1.79 4 4-1.79 4-4 4-4-1.79-4-4zm24 0c0-2.21 1.79-4 4-4s4 1.79 4 4-1.79 4-4 4-4-1.79-4-4zM36 10c0-2.21 1.79-4 4-4s4 1.79 4 4-1.79 4-4 4-4-1.79-4-4zm24 0c0-2.21 1.79-4 4-4s4 1.79 4 4-1.79 4-4 4-4-1.79-4-4z"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E');
+            z-index: -1;
+        }
+        .container {
+            background: #fff;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            max-width: 800px;
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 6px;
+            background: linear-gradient(to right, #ff758c, #36d1dc);
         }
         h1 {
             text-align: center;
+            color: #2c3e50;
+            margin-bottom: 30px;
+            font-weight: 600;
+            font-size: 2.2rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+        }
+        .form-group {
+            margin-bottom: 25px;
+            position: relative;
         }
         label {
             display: block;
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: #34495e;
+            font-size: 1.1rem;
         }
         input[type="text"],
+        input[type="email"],
+        input[type="tel"],
         input[type="date"],
-        select {
+        select,
+        textarea {
             width: 100%;
+            padding: 12px;
+            border: 1px solid #dfe6e9;
+            border-radius: 8px;
+            font-size: 1rem;
+            box-sizing: border-box;
+            transition: border-color 0.3s, box-shadow 0.3s;
         }
-        select[multiple] {
-            height: 80px;
+        input:focus,
+        select:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #36d1dc;
+            box-shadow: 0 0 5px rgba(54, 209, 220, 0.3);
+        }
+        .radio-group,
+        .checkbox-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            padding: 10px 0;
+        }
+        input[type="radio"],
+        input[type="checkbox"] {
+            margin-right: 8px;
+            accent-color: #36d1dc;
+        }
+        .error {
+            color: #e74c3c;
+            font-size: 0.9rem;
+            margin-top: 5px;
+            display: none;
+        }
+        button {
+            background: linear-gradient(to right, #ff758c, #36d1dc);
+            color: white;
+            padding: 14px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 1.1rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        .education-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        .education-table th,
+        .education-table td {
+            border: 1px solid #dfe6e9;
+            padding: 10px;
+            text-align: left;
+        }
+        .education-table th {
+            background: #f7f9fc;
+            font-weight: 500;
+            color: #34495e;
+        }
+        .education-table td input {
+            width: 100%;
+            border: none;
+            padding: 5px;
+            font-size: 1rem;
+        }
+        .education-table td input:focus {
+            outline: none;
+            border: 1px solid #36d1dc;
+            border-radius: 4px;
+        }
+        .add-education {
+            background: #4caf50;
+            margin-top: 10px;
+            padding: 10px;
+            font-size: 0.9rem;
+        }
+        .add-education:hover {
+            background: #45a049;
+        }
+        input.invalid {
+            border: 1px solid #e74c3c !important;
+            background-image: url('data:image/svg+xml;utf8,<svg fill="red" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 15h-1v-1h1v1zm0-3h-1V7h1v7z"/></svg>');
+            background-repeat: no-repeat;
+            background-position: right 10px center;
+            background-size: 20px 20px;
+        }
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+            }
+            h1 {
+                font-size: 1.5rem;
+            }
+            .radio-group,
+            .checkbox-group {
+                flex-direction: column;
+                gap: 10px;
+            }
+            .education-table th,
+            .education-table td {
+                font-size: 0.9rem;
+                padding: 8px;
+            }
+            button {
+                font-size: 1rem;
+                padding: 12px;
+            }
         }
     </style>
 </head>
 <body>
-    <h1>Biodata</h1>
-    <div>
-        <label for="firstName">First Name</label>
-        <input type="text" id="firstName" name="firstName" required>
-        <br><br>
+    <div class="container">
+        <h1>Marriage Biodata</h1>
+        <form id="biodataForm" onsubmit="return validateForm(event)">
+            <div class="form-group">
+                <label for="fullName">Full Name *</label>
+                <input type="text" id="fullName" name="fullName" required />
+                <span class="error" id="fullNameError"
+                    >Please enter a valid name (letters only).</span
+                >
+            </div>
+            <div class="form-group">
+                <label for="fatherName">Father's Name *</label>
+                <input type="text" id="fatherName" name="fatherName" required />
+                <span class="error" id="fatherNameError"
+                    >Please enter a valid name (letters only).</span
+                >
+            </div>
+            <div class="form-group">
+                <label for="motherName">Mother's Name *</label>
+                <input type="text" id="motherName" name="motherName" required />
+                <span class="error" id="motherNameError"
+                    >Please enter a valid name (letters only).</span
+                >
+            </div>
+            <div class="form-group">
+                <label for="dob">Date of Birth *</label>
+                <input type="date" id="dob" name="dob" required />
+                <span class="error" id="dobError">Please select your date of birth.</span>
+            </div>
+            <div class="form-group">
+                <label>Gender *</label>
+                <div class="radio-group">
+                    <label><input type="radio" name="gender" value="Male" required /> Male</label>
+                    <label><input type="radio" name="gender" value="Female" /> Female</label>
+                    <label><input type="radio" name="gender" value="Other" /> Other</label>
+                </div>
+                <span class="error" id="genderError">Please select your gender.</span>
+            </div>
+            <div class="form-group">
+                <label for="maritalStatus">Marital Status *</label>
+                <select id="maritalStatus" name="maritalStatus" required>
+                    <option value="">Select Marital Status</option>
+                    <option value="Never Married">Never Married</option>
+                    <option value="Divorced">Divorced</option>
+                    <option value="Widowed">Widowed</option>
+                </select>
+                <span class="error" id="maritalStatusError">Please select your marital status.</span>
+            </div>
+            <div class="form-group">
+                <label for="religion">Religion *</label>
+                <select id="religion" name="religion" required>
+                    <option value="">Select Religion</option>
+                    <option value="Hindu">Hindu</option>
+                    <option value="Muslim">Muslim</option>
+                    <option value="Christian">Christian</option>
+                    <option value="Sikh">Sikh</option>
+                    <option value="Other">Other</option>
+                </select>
+                <span class="error" id="religionError">Please select your religion.</span>
+            </div>
+            <div class="form-group">
+                <label for="height">Height (in cm) *</label>
+                <input type="text" id="height" name="height" required />
+                <span class="error" id="heightError">Please enter a valid height (100-250 cm).</span>
+            </div>
+            <div class="form-group">
+                <label>Education *</label>
+                <table class="education-table" id="educationTable">
+                    <thead>
+                        <tr>
+                            <th>Degree</th>
+                            <th>Institution</th>
+                            <th>Year</th>
+                        </tr>
+                    </thead>
+                    <tbody id="educationBody">
+                        <tr>
+                            <td><input type="text" name="degree[]" required /></td>
+                            <td><input type="text" name="institution[]" required /></td>
+                            <td><input type="text" name="year[]" required /></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <button
+                    type="button"
+                    class="add-education"
+                    onclick="addEducationRow()"
+                >
+                    Add Education
+                </button>
+                <span class="error" id="educationError"
+                    >Please fill valid education details.</span
+                >
+            </div>
+            <div class="form-group">
+                <label for="occupation">Occupation *</label>
+                <input type="text" id="occupation" name="occupation" required />
+                <span class="error" id="occupationError">Please enter your occupation.</span>
+            </div>
+            <div class="form-group">
+                <label for="email">Email Address *</label>
+                <input type="email" id="email" name="email" required />
+                <span class="error" id="emailError">Please enter a valid email address.</span>
+            </div>
+            <div class="form-group">
+                <label for="phone">Phone Number *</label>
+                <input type="tel" id="phone" name="phone" required />
+                <span class="error" id="phoneError"
+                    >Please enter a valid phone number (10 digits).</span
+                >
+            </div>
+            <div class="form-group">
+                <label>Hobbies</label>
+                <div class="checkbox-group">
+                    <label><input type="checkbox" name="hobbies" value="Reading" /> Reading</label>
+                    <label><input type="checkbox" name="hobbies" value="Traveling" /> Traveling</label>
+                    <label><input type="checkbox" name="hobbies" value="Cooking" /> Cooking</label>
+                    <label><input type="checkbox" name="hobbies" value="Sports" /> Sports</label>
+                </div>
+                <span class="error" id="hobbiesError">Please select at least one hobby.</span>
+            </div>
+            <div class="form-group">
+                <label for="about">About Yourself</label>
+                <textarea id="about" name="about" rows="5"></textarea>
+            </div>
+            <button type="submit">Submit Biodata</button>
+        </form>
     </div>
-    <div>
-        <label for="lastName">Last Name</label>
-        <input type="text" id="lastName" name="lastName" required>
-        <br><br>
-    </div>
-    <div>
-        <label for="dob">Date of Birth</label>
-        <input type="date" id="dob" name="dob" required>
-        <br><br>
-    </div>
-    <div>
-        <label>Gender</label>
-        <input type="radio" name="gender" value="male" required> Male
-        <input type="radio" name="gender" value="female"> Female
-        <input type="radio" name="gender" value="others"> Others
-        <br><br>
-    </div>
-    <div>
-        <label for="nationality">Nationality</label>
-        <input type="text" id="nationality" name="nationality" required>
-        <br><br>
-    </div>
-    <div>
-        <label for="religion">Religion</label>
-        <input type="text" id="religion" name="religion" required>
-        <br><br>
-    </div>
-    <div>
-        <label for="bloodGroup">Blood Group</label>
-        <select id="bloodGroup" name="bloodGroup" required>
-            <option value="">Select</option>
-            <option value="A+">A+</option>
-            <option value="A-">A-</option>
-            <option value="B+">B+</option>
-            <option value="B-">B-</option>
-            <option value="O+">O+</option>
-            <option value="O-">O-</option>
-            <option value="AB+">AB+</option>
-            <option value="AB-">AB-</option>
-        </select>
-        <br><br>
-    </div>
-    <div>
-        <label for="height">Height (in cm)</label>
-        <input type="text" id="height" name="height">
-        <br><br>
-    </div>
-    <div>
-        <label for="maritalStatus">Marital Status</label>
-        <select id="maritalStatus" name="maritalStatus" required>
-            <option value="">Select</option>
-            <option value="single">Single</option>
-            <option value="divorced">Divorced</option>
-            <option value="widowed">Widowed</option>
-        </select>
-        <br><br>
-    </div>
-    <div>
-        <label>Educational Qualification</label>
-        <div>
-            <label for="ssc">SSC</label>
-            <input type="text" id="ssc" name="ssc">
-            <br><br>
-        </div>
-        <div>
-            <label for="hsc">HSC</label>
-            <input type="text" id="hsc" name="hsc">
-            <br><br>
-        </div>
-        <div>
-            <label for="bsc">BSC</label>
-            <input type="text" id="bsc" name="bsc">
-            <br><br>
-        </div>
-    </div>
-    <div>
-        <label for="occupation">Current Occupation</label>
-        <input type="text" id="occupation" name="occupation" required>
-        <br><br>
-    </div>
-<div>
-    <label>Hobbies</label><br>
-    <input type="checkbox" id="reading" name="hobbies" value="reading">
-    <label for="reading">Reading</label><br>
 
-    <input type="checkbox" id="traveling" name="hobbies" value="traveling">
-    <label for="traveling">Traveling</label><br>
+    <script>
+        function addEducationRow() {
+            const tbody = document.getElementById("educationBody");
+            const newRow = document.createElement("tr");
+            newRow.innerHTML = `
+                <td><input type="text" name="degree[]" required></td>
+                <td><input type="text" name="institution[]" required></td>
+                <td><input type="text" name="year[]" required></td>
+            `;
+            tbody.appendChild(newRow);
+            attachEducationListeners();
+        }
 
-    <input type="checkbox" id="cooking" name="hobbies" value="cooking">
-    <label for="cooking">Cooking</label><br>
+        function attachEducationListeners() {
+            document.querySelectorAll("#educationBody input").forEach((input) => {
+                input.addEventListener("input", function () {
+                    let valid = true;
+                    document.querySelectorAll('input[name="degree[]"]').forEach((d) => {
+                        valid = valid && /^[A-Za-z\s]+$/.test(d.value);
+                    });
+                    document.querySelectorAll('input[name="institution[]"]').forEach(
+                        (i) => {
+                            valid = valid && /^[A-Za-z0-9\s]+$/.test(i.value);
+                        }
+                    );
+                    document.querySelectorAll('input[name="year[]"]').forEach((y) => {
+                        valid = valid && /^\d{4}$/.test(y.value);
+                    });
+                    input.classList.toggle("invalid", !valid);
+                });
+            });
+        }
 
-    <input type="checkbox" id="sports" name="hobbies" value="sports">
-    <label for="sports">Sports</label><br>
+        document.addEventListener("DOMContentLoaded", function () {
+            const rules = {
+                fullName: (value) => /^[A-Za-z\s]+$/.test(value),
+                fatherName: (value) => /^[A-Za-z\s]+$/.test(value),
+                motherName: (value) => /^[A-Za-z\s]+$/.test(value),
+                dob: (value) => value !== "",
+                height: (value) => {
+                    const num = parseFloat(value);
+                    return !isNaN(num) && num >= 100 && num <= 250;
+                },
+                occupation: (value) => value.trim() !== "",
+                email: (value) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value),
+                phone: (value) => /^\d{10}$/.test(value),
+            };
+            for (let field in rules) {
+                const input = document.getElementById(field);
+                input.addEventListener("input", function () {
+                    input.classList.toggle("invalid", !rules[field](input.value));
+                });
+            }
+            attachEducationListeners();
+        });
 
-    <input type="checkbox" id="music" name="hobbies" value="music">
-    <label for="music">Music</label><br><br>
-</div>
+        function validateForm(event) {
+            event.preventDefault();
+            let isValid = true;
 
-    <button type="submit">Submit</button>
+            const check = (id, rule) => {
+                const input = document.getElementById(id);
+                const error = document.getElementById(id + "Error");
+                if (!rule(input.value)) {
+                    input.classList.add("invalid");
+                    error.style.display = "block";
+                    isValid = false;
+                } else {
+                    input.classList.remove("invalid");
+                    error.style.display = "none";
+                }
+            };
+
+            check("fullName", (value) => /^[A-Za-z\s]+$/.test(value));
+            check("fatherName", (value) => /^[A-Za-z\s]+$/.test(value));
+            check("motherName", (value) => /^[A-Za-z\s]+$/.test(value));
+            check("dob", (value) => value !== "");
+            check("height", (value) => {
+                const num = parseFloat(value);
+                return !isNaN(num) && num >= 100 && num <= 250;
+            });
+            check("occupation", (value) => value.trim() !== "");
+            check("email", (value) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value));
+            check("phone", (value) => /^\d{10}$/.test(value));
+
+            const gender = document.querySelector('input[name="gender"]:checked');
+            if (!gender) {
+                document.getElementById("genderError").style.display = "block";
+                isValid = false;
+            } else {
+                document.getElementById("genderError").style.display = "none";
+            }
+
+            const maritalStatus = document.getElementById("maritalStatus").value;
+            if (!maritalStatus) {
+                document.getElementById("maritalStatusError").style.display = "block";
+                isValid = false;
+            } else {
+                document.getElementById("maritalStatusError").style.display = "none";
+            }
+
+            const religion = document.getElementById("religion").value;
+            if (!religion) {
+                document.getElementById("religionError").style.display = "block";
+                isValid = false;
+            } else {
+                document.getElementById("religionError").style.display = "none";
+            }
+
+            let educationValid = true;
+            document.querySelectorAll('input[name="degree[]"]').forEach((d) => {
+                educationValid = educationValid && /^[A-Za-z\s]+$/.test(d.value);
+            });
+            document.querySelectorAll('input[name="institution[]"]').forEach((i) => {
+                educationValid = educationValid && /^[A-Za-z0-9\s]+$/.test(i.value);
+            });
+            document.querySelectorAll('input[name="year[]"]').forEach((y) => {
+                educationValid = educationValid && /^\d{4}$/.test(y.value);
+            });
+            if (!educationValid) {
+                document.getElementById("educationError").style.display = "block";
+                isValid = false;
+            } else {
+                document.getElementById("educationError").style.display = "none";
+            }
+
+            if (isValid) {
+                alert("Form Submitted Successfully!");
+                document.getElementById("biodataForm").reset();
+            }
+        }
+    </script>
 </body>
 </html>
